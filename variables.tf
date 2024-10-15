@@ -1,3 +1,7 @@
+variable "prefix" {
+  default = "credifyai"
+}
+
 variable "azure_devops_pat" {
   type = string
 }
