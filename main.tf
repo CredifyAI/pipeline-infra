@@ -1,9 +1,9 @@
 resource "azurerm_container_registry" "credifyai" {
-  name                = "credifyai"  
+  name                = "credifyai"
   resource_group_name = azurerm_resource_group.credifyai.name
   location            = azurerm_resource_group.credifyai.location
-  sku                 = "Standard"  
-  admin_enabled       = true        
+  sku                 = "Standard"
+  admin_enabled       = true
 }
 
 resource "azuredevops_project" "credifyai" {
@@ -12,16 +12,16 @@ resource "azuredevops_project" "credifyai" {
 }
 
 resource "azuredevops_serviceendpoint_azurerm" "azurerm" {
-  project_id            = azuredevops_project.credifyai.id  
-  service_endpoint_name = "azurerm"   
-service_endpoint_authentication_scheme = "ServicePrincipal"
+  project_id                             = azuredevops_project.credifyai.id
+  service_endpoint_name                  = "azurerm"
+  service_endpoint_authentication_scheme = "ServicePrincipal"
   credentials {
     serviceprincipalid  = var.client_id
     serviceprincipalkey = var.client_secret
   }
 
-  azurerm_spn_tenantid = var.tenant_id
-  azurerm_subscription_id      = var.subscription_id
+  azurerm_spn_tenantid      = var.tenant_id
+  azurerm_subscription_id   = var.subscription_id
   azurerm_subscription_name = "AzureRM Subscription"
 }
 
@@ -61,12 +61,12 @@ resource "azuredevops_build_definition" "frontend" {
   path       = "\\"
 
   repository {
-    repo_type   = "GitHub"
-    repo_id = "CredifyAI/frontend"
-    github_enterprise_url   = "https://github.com"
-    branch_name = "main"
+    repo_type             = "GitHub"
+    repo_id               = "CredifyAI/frontend"
+    github_enterprise_url = "https://github.com"
+    branch_name           = "main"
     service_connection_id = azuredevops_serviceendpoint_github.github.id
-    yml_path     = "azure.yml"
+    yml_path              = "azure.yml"
   }
 
   ci_trigger {
